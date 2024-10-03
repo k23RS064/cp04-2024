@@ -157,7 +157,7 @@
     var etime=0;
     var m=parseInt(rest/60);
     var s=parseInt(rest-m*60);
-    
+
 
 
     
@@ -167,7 +167,7 @@
         $('#btnB').prop('disabled', false);
         $('#btnC').prop('disabled', false);
         btnCClick(null);
-        
+        var mstr="分:";
     }
 
     // Alarmの処理
@@ -222,6 +222,7 @@
              if(rest<0){
                  active=false;
              }
+             $("#minuteStr").html(mstr);
         
         
     } 
