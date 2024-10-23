@@ -152,22 +152,22 @@
     // 変数宣言
     var active=false;
     var startTime=0;
-    var period;
+    var period=0;
     var rest=0;
     var etime=0;
-    var m=parseInt(rest/60);
-    var s=parseInt(rest-m*60);
+    //var m=parseInt(rest/60);
+    //var s=parseInt(rest-m*60);
+
 
 
 
     
     // ボタンの初期設定
     function init(){
-        $('#btnA').prop('disabled', false);
-        $('#btnB').prop('disabled', false);
-        $('#btnC').prop('disabled', false);
+        $('#btnA').prop("disabled", false);
+        $('#btnB').prop("disabled", false);
+        $('#btnC').prop("disabled", false);
         btnCClick(null);
-        var mstr="分:";
     }
 
     // Alarmの処理
@@ -188,7 +188,7 @@
     // ButtonAがクリックされた時の処理
     function btnAClick(e){
         active=true;
-        startTime=new Data();
+        startTime=new Date();
         
         
     }
@@ -202,9 +202,9 @@
 
     // ButtonCがクリックされた時の処理
     function btnCClick(e){
-        alarm();
+        //alarm();
         active=false;
-        period=60*parseInt($("#minute").val())+parseInt($("#second")val());
+        period=60*parseInt($("#minute").val())+parseInt($("#second").val());
         $("#time").html("経過時間:0");
         $("#remain").html("残り時間:"+period);
         
@@ -214,15 +214,41 @@
     // 繰り返し実行する処理
     function timer(){ 
          if(active){
-             etime=parseInt((new Data()-startTime)/1000);
+             etime=parseInt((new Date()-startTime)/1000);
              rest=period-etime;
              $("#time").html("経過時間:"+etime);
              $("#remain").html("残り時間:"+rest);
              analog(rest);
-             if(rest<0){
+             if(rest<=0){
                  active=false;
+                 alarm();
+             }
+
+             var mstr = "分: ";
+             var m=parseInt(rest/60);
+             var s=parseInt(rest-m*60);
+             var k=etime;
+             for (var i = 0; i < m; i++) {
+                 mstr += "■";
              }
              $("#minuteStr").html(mstr);
+
+             var sstr = "秒: ";
+             for (var i = 0; i < s; i++) {
+                 sstr += "■";
+             }
+             $("#secondStr").html(sstr);
+
+             var kstr = "経過: ";
+             for (var i = 0; i < k; i++) {
+                 kstr += "■";
+             }
+             $("#keikaStr").html(kstr);
+
+             
+             
+            
+         }
         
          
     } 
@@ -234,6 +260,7 @@
 
     <div id="minuteStr">〇</div>
     <div id="secondStr">〇</div>
+    <div id="keikaStr">〇</div>
 
     <div id="remain">Remaining time</div>
     <div id="time">Time</div>
