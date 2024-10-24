@@ -38,6 +38,10 @@
         $('#btnC').click(function(e) {
             btnCClick(e);
         });
+
+        $('#btnD').click(function(e) { // btnDのクリックイベントを追加
+        btnDClick(e);
+        });
         init();
     });
     
@@ -155,6 +159,7 @@
     var period=0;
     var rest=0;
     var etime=0;
+    var a=false;
     //var m=parseInt(rest/60);
     //var s=parseInt(rest-m*60);
 
@@ -167,13 +172,16 @@
         $('#btnA').prop("disabled", false);
         $('#btnB').prop("disabled", false);
         $('#btnC').prop("disabled", false);
+        $('#btnD').prop("disabled", false);
         btnCClick(null);
     }
 
     // Alarmの処理
     function alarm(){
         var canvas =$("#mycanvas")[0];
+        var canvas1 =$("#mycanvas1")[0];
         var ctx=canvas.getContext("2d");
+        var ctx=canvas1.getContext("2d");
         var img =new Image();
         img.src="ksuisbg.gif";
         img.onload=function(){
@@ -189,6 +197,7 @@
     function btnAClick(e){
         active=true;
         startTime=new Date();
+        alarm();
         
         
     }
@@ -210,6 +219,15 @@
         
     }
     
+    function btnDClick(e){
+        if (active) {
+            var rapTime = etime;  // 現在の経過時間を保持
+            $("#Rap").html("Rap Time: " + rapTime + "秒");  // 経過時間を表示
+        } else {
+            $("#Rap").html("Rap Time: 0秒");
+        }
+    }
+    
  
     // 繰り返し実行する処理
     function timer(){ 
@@ -222,7 +240,18 @@
              if(rest<=0){
                  active=false;
                  alarm();
+                 $("#timeup").html("時間終了:0");
+             }else{
+                 $("#timeup").html(rest);
              }
+             
+             
+             
+             
+
+             
+
+
 
              var mstr = "分: ";
              var m=parseInt(rest/60);
@@ -240,10 +269,11 @@
              $("#secondStr").html(sstr);
 
              var kstr = "経過: ";
-             for (var i = 0; i < k; i++) {
+             for (var i = 0; i <= k; i++) {
                  kstr += "■";
              }
              $("#keikaStr").html(kstr);
+
 
              
              
@@ -258,15 +288,20 @@
 <body>
     <canvas id="mycanvas" width="200" height="200">Test</canvas>
 
+    <canvas id="mycanvas1" width="200" height="200">Test</canvas>
+
     <div id="minuteStr">〇</div>
     <div id="secondStr">〇</div>
     <div id="keikaStr">〇</div>
 
     <div id="remain">Remaining time</div>
     <div id="time">Time</div>
+    <div id="timeup">TimeUp</div>
+    <div id="Rap">Rap</div>
     <button id="btnA">Start</button>  
     <button id="btnB">Stop</button>  
-    <button id="btnC">Set</button>  
+    <button id="btnC">Set</button> 
+    <button id="btnD">Rap</button> 
     <input type="number" id="minute" value=0 >
     <input type="number" id="second" value=15 >
 </body>
